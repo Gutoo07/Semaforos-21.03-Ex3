@@ -4,14 +4,15 @@ import java.util.concurrent.Semaphore;
 public class Metodos3 extends Thread {
 	private Semaphore atirando;
 	private int id;
-	private int progresso, pontos, pontuacao;
-	static int chegada;
+	private int progresso, pontos, pontuacao, aux;
+	static int chegada, ct;
+	static int atletas[] = new int[25];
+	static String colocacao[] = new String[25];
 	static int premio = 250;
 	
 	public Metodos3(Semaphore atirando, int i) {
 		id = i;
-		this.atirando = atirando;
-		
+		this.atirando = atirando;		
 	}
 	
 	public void run() {		
@@ -39,7 +40,44 @@ public class Metodos3 extends Thread {
 			}
 			System.err.println("Atleta #" + id + " foi o " + ++chegada + "o. a chegar, com "
 					+ (pontuacao+premio) + " pontos totais.");
+			atletas[id] = (pontuacao + premio);
 			premio -= 10;
+			++ct;
+			
+			/*if (ct == 25) {
+			for (int i = 0; i < 24; i++) {
+				for (int j = (i + 1); j < 24; j++) {
+					if (atletas[i]<atletas[j]) {
+						aux = atletas[i];
+						atletas[i] = atletas[j];
+						atletas[j] = aux;
+						colocacao[i] = i;
+					} else {
+						colocacao[i] = j;						
+					}
+				}
+			}
+			for (int i = 0; i < 25; i ++) {
+				System.out.println("Atleta #" + colocacao[i] +" " + atletas[i]);
+			}
+			}*/
+			if (ct == 25) {
+				for (int i = 0; i < 24; i++) {
+					for (int j = (i+1); j < 25; j++) {
+						if (atletas[i] < atletas[j] ) {
+							colocacao[i] = "Atleta #" + j + " " + atletas[j] + " pontos ";
+							//colocacao[j] = "Atleta #" + j + " " + atletas[i] + " pontos ";
+						} else {
+							colocacao[i] =  "Atleta #" + i + " " + atletas[i] + " pontos ";
+							//colocacao[j] = "Atleta #" + j + " " + atletas[j] + " pontos ";
+						}
+					}
+				}
+				for (int i = 0; i < 25; i++) {
+					System.out.println(colocacao[i]);
+				}
+			}
+			
 	}
 
 	private void atirando(int id) {
